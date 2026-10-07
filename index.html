@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سِينرجي ون | Synergy One — رِكاز للمحاسبة والإدارة الاستراتيجية</title>
+  
+  <!-- Google Fonts: Cairo & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Three.js CDN for 3D graphics -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#050B17',
+              navy: '#0B1B3D',
+              deep: '#08142c',
+              emerald: '#0F5257',
+              accent: '#10B981',
+              mint: '#34D399',
+              lightMint: '#6EE7B7',
+              gold: '#F59E0B'
+            }
+          },
+          fontFamily: {
+            cairo: ['Cairo', 'sans-serif'],
+            tajawal: ['Tajawal', 'sans-serif']
+          },
+          animation: {
+            'float-slow': 'floating 6s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 3s infinite',
+            'spin-slow': 'spin 20s linear infinite'
+          },
+          keyframes: {
+            floating: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-12px)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+              '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Global scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 9px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #050B17;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #0F5257;
+      border-radius: 6px;
+      border: 2px solid #050B17;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #10B981;
+    }
+
+    /* 3D tilt perspective container */
+    .tilt-container {
+      perspective: 1200px;
+    }
+    
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+      will-change: transform;
+    }
+
+    /* Glassmorphism custom utilities */
+    .glass-dark {
+      background: rgba(11, 27, 61, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    /* Mesh gradient overlay */
+    .gradient-glow {
+      background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, rgba(11, 27, 61, 0) 70%);
+    }
+
+    /* Text gradient effect */
+    .text-gradient-emerald {
+      background: linear-gradient(135deg, #ffffff 30%, #6EE7B7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-gradient-gold {
+      background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+
+<body class="bg-[#050B17] text-slate-100 font-cairo antialiased selection:bg-brand-accent selection:text-brand-navy overflow-x-hidden relative">
+
+  <!-- Top Navigation Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="mainHeader">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-3">
+      <div class="glass-dark rounded-2xl px-5 py-3.5 flex items-center justify-between shadow-2xl border border-white/10">
+        
+        <!-- Logo & Branding -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-emerald to-brand-accent flex items-center justify-center text-white shadow-lg shadow-brand-emerald/40 group-hover:scale-105 transition-transform duration-300">
+            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-extrabold text-lg tracking-tight text-white group-hover:text-brand-lightMint transition-colors">سِينرجي ون</span>
+              <span class="text-xs px-1.5 py-0.5 rounded bg-brand-emerald/30 text-brand-lightMint font-bold border border-brand-lightMint/20">رِكاز</span>
+            </div>
+            <span class="text-[11px] text-slate-400 font-tajawal tracking-wider">Synergy One for Advisory</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+          <a href="#hero" class="hover:text-brand-lightMint transition-colors">الرئيسية</a>
+          <a href="#features" class="hover:text-brand-lightMint transition-colors">لماذا رِكاز؟</a>
+          <a href="#services" class="hover:text-brand-lightMint transition-colors">منظومة الخدمات</a>
+          <a href="#assessment" class="hover:text-brand-lightMint transition-colors">مقياس الجاهزية</a>
+          <a href="#contact" class="hover:text-brand-lightMint transition-colors">تواصل معنا</a>
+        </nav>
+
+        <!-- Header Action CTA -->
+        <div class="flex items-center gap-3">
+          <a href="https://wa.me/967773744429" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-400 text-brand-navy font-bold px-4 py-2 rounded-xl text-xs shadow-md shadow-emerald-500/20 hover:shadow-emerald-500/40 hover:-translate-y-0.5 transition-all">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.5 3.5A11.9 11.9 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.4-1.7c1.7.9 3.6 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3zM12 21.5c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.8 1 1-3.7-.2-.4a9.5 9.5 0 0 1-1.5-5.1c0-5.3 4.3-9.6 9.6-9.6 2.6 0 5 1 6.8 2.8 1.8 1.8 2.8 4.2 2.8 6.8.2 5.3-4.1 9.8-9.3 9.8zm5.4-7.2c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.2-.6-.4z"/></svg>
+            <span>استشارة سريعة</span>
+          </a>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button id="mobileMenuBtn" aria-label="القائمة" class="md:hidden p-2 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Mobile Dropdown Menu -->
+      <div id="mobileMenu" class="hidden md:hidden mt-2 glass-dark rounded-2xl p-4 border border-white/10 shadow-2xl space-y-2">
+        <a href="#hero" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-white/10 hover:text-brand-lightMint text-sm font-semibold">الرئيسية</a>
+        <a href="#features" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-white/10 hover:text-brand-lightMint text-sm font-semibold">لماذا رِكاز؟</a>
+        <a href="#services" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-white/10 hover:text-brand-lightMint text-sm font-semibold">منظومة الخدمات</a>
+        <a href="#assessment" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-white/10 hover:text-brand-lightMint text-sm font-semibold">مقياس الجاهزية</a>
+        <a href="#contact" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-white/10 hover:text-brand-lightMint text-sm font-semibold">تواصل معنا</a>
+        <a href="https://wa.me/967773744429" target="_blank" class="block text-center mt-3 py-2.5 rounded-xl bg-brand-lightMint text-brand-navy font-bold text-sm">محادثة واتساب مباشرة</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION WITH FULL 3D INTERACTIVE CANVAS -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center pt-28 pb-16 overflow-hidden">
+    
+    <!-- Three.js 3D Background Canvas -->
+    <div id="threejs-hero-container" class="absolute inset-0 z-0 pointer-events-auto"></div>
+    
+    <!-- Ambient Light Gradients -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#050B17]/60 via-[#0B1B3D]/70 to-[#050B17] pointer-events-none z-10"></div>
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-brand-emerald/25 rounded-full blur-[140px] pointer-events-none z-10"></div>
+
+    <!-- Hero Foreground Content -->
+    <div class="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      
+      <!-- Interactive Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-pill text-xs sm:text-sm font-medium text-brand-lightMint mb-6 border border-emerald-400/30 shadow-lg shadow-emerald-950/40 animate-float-slow">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span>✦ الشريك الاستراتيجي الأول للنمو والاستقرار المالي المؤسسي</span>
+      </div>
+
+      <!-- Main Headline with 3D Depth Typography -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-tight text-white mb-6">
+        سِينرجي ون <span class="text-gradient-emerald">| Synergy One</span>
+        <br>
+        <span class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-200 mt-2 block">
+          رِكاز للمحاسبة والإدارة وحلول الأعمال
+        </span>
+      </h1>
+
+      <!-- Tagline Paragraph -->
+      <p class="text-slate-300 font-tajawal text-base sm:text-xl lg:text-2xl max-w-3xl mx-auto font-medium leading-relaxed mb-10">
+        نحوّل التعقيدات المالية والدفترية إلى أرقام واضحة، ورقابة محكمة، وقرارات استثمارية مدروسة تضمن ريادة واستدامة منشأتك.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+        <a href="#services" class="group relative inline-flex items-center gap-3 bg-gradient-to-r from-brand-lightMint via-emerald-400 to-teal-400 text-brand-navy font-black px-8 py-4 rounded-2xl text-base shadow-xl shadow-emerald-500/25 hover:shadow-emerald-400/40 hover:-translate-y-1 transition-all duration-300">
+          <span>استكشف الخدمات التسع</span>
+          <svg class="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
+
+        <a href="#assessment" class="inline-flex items-center gap-3 glass-pill text-white hover:text-brand-lightMint font-bold px-7 py-4 rounded-2xl text-base hover:bg-white/15 border border-white/20 hover:-translate-y-1 transition-all duration-300">
+          <svg class="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>افحص جاهزية منشأتك مجاناً</span>
+        </a>
+      </div>
+
+      <!-- 3D Interactive Canvas Hint -->
+      <div class="mt-8 flex items-center justify-center gap-2 text-xs text-slate-400 font-tajawal">
+        <span class="inline-block w-2 h-2 rounded-full bg-brand-lightMint animate-pulse"></span>
+        <span>يمكنك سحب وتدوير المجسم المالي ثلاثي الأبعاد في الخلفية باللمس أو بالفأرة</span>
+      </div>
+
+      <!-- Quick Metric Counters Ribbon -->
+      <div class="mt-14 pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="p-3">
+          <div class="text-3xl sm:text-4xl font-black text-white font-tajawal mb-1">9</div>
+          <div class="text-xs sm:text-sm text-slate-400">خدمات متخصصة متكاملة</div>
+        </div>
+        <div class="p-3">
+          <div class="text-3xl sm:text-4xl font-black text-brand-lightMint font-tajawal mb-1">99.9%</div>
+          <div class="text-xs sm:text-sm text-slate-400">دقة المعايير المحاسبية</div>
+        </div>
+        <div class="p-3">
+          <div class="text-3xl sm:text-4xl font-black text-amber-400 font-tajawal mb-1">100%</div>
+          <div class="text-xs sm:text-sm text-slate-400">أمان وسرية البيانات</div>
+        </div>
+        <div class="p-3">
+          <div class="text-3xl sm:text-4xl font-black text-cyan-400 font-tajawal mb-1">24/7</div>
+          <div class="text-xs sm:text-sm text-slate-400">دعم واستشارات مرنة</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Slanted Bottom Divider for Smooth Transition -->
+    <div class="absolute -bottom-1 left-0 right-0 h-16 bg-gradient-to-t from-[#0B1B3D] to-transparent pointer-events-none z-10"></div>
+  </section>
+
+  <!-- VALUE PROPOSITION / PILLARS SECTION -->
+  <section id="features" class="py-24 bg-gradient-to-b from-[#0B1B3D] via-[#08142c] to-[#070F20] relative z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-brand-lightMint font-bold text-xs uppercase tracking-widest mb-3">ركائز التميّز والريادة</div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-4">لماذا تختار شراكة «سِينرجي ون»؟</h2>
+        <p class="text-slate-300 font-tajawal text-base sm:text-lg">
+          لا نقدم مجرد تقارير محاسبية تقليدية، بل نصنع نظاماً رقابياً ومالياً صلباً يُسهم في تعظيم أرباحك وتفادي أي مخاطر تشغيلية.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Pillar 1 -->
+        <div class="glass-dark rounded-3xl p-8 border border-white/10 hover:border-brand-lightMint/50 transition-all duration-300 hover:-translate-y-2 shadow-xl group">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-brand-emerald to-emerald-400 flex items-center justify-center text-3xl mb-6 shadow-lg shadow-emerald-600/30 group-hover:scale-110 transition-transform">
+            🛡️
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3 group-hover:text-brand-lightMint transition-colors">حماية ورقابة صارمة ضد الهدر</h3>
+          <p class="text-slate-300 font-tajawal text-sm leading-relaxed">
+            بناء دورات مستندية محكمة وسياسات صلاحيات دقيقة تمنع أي تسرب أو تلاعب مالي داخل منشأتك، مع فحص ربع سنوي شامل.
+          </p>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="glass-dark rounded-3xl p-8 border border-white/10 hover:border-cyan-400/50 transition-all duration-300 hover:-translate-y-2 shadow-xl group">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center text-3xl mb-6 shadow-lg shadow-cyan-600/30 group-hover:scale-110 transition-transform">
+            ⚡
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3 group-hover:text-cyan-300 transition-colors">التحول الرقمي السحابي والآلي</h3>
+          <p class="text-slate-300 font-tajawal text-sm leading-relaxed">
+            ودّع الدفاتر والملفات المتناثرة؛ نُحدث نقلة نوعية عبر أنظمة الـ ERP السحابية، وربط الفواتير الإلكترونية، والتقارير الحية.
+          </p>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="glass-dark rounded-3xl p-8 border border-white/10 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-2 shadow-xl group">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center text-3xl mb-6 shadow-lg shadow-amber-600/30 group-hover:scale-110 transition-transform">
+            📊
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3 group-hover:text-amber-300 transition-colors">قرارات استثمارية مبنية على الأرقام</h3>
+          <p class="text-slate-300 font-tajawal text-sm leading-relaxed">
+            دراسات جدوى معمقة وتحليل مؤشرات السيولة والربحية لمساعدتك في اتخاذ قرارات التوسع وفتح الفروع بكل ثقة ودراية.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 9 COMPREHENSIVE SERVICES SECTION -->
+  <section id="services" class="py-24 bg-[#050B17] relative z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Title Header -->
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-brand-emerald/30 border border-brand-emerald/40 text-brand-lightMint text-xs font-bold mb-3">
+          خدماتنا الاحترافية المتكاملة
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-black text-white mb-4">
+          تسعُ خدمات استشارية ومحاسبية… بمعايير عالمية
+        </h2>
+        <p class="text-slate-400 font-tajawal text-base sm:text-lg">
+          حلول مصممة بعناية لمواكبة متطلبات الشركات الصغيرة والمتوسطة والكبرى، مجهزة بأحدث أدوات الحوكمة.
+        </p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="flex items-center justify-center flex-wrap gap-2.5 mb-14" id="serviceFilters">
+        <button data-filter="all" class="filter-btn active px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-brand-lightMint text-brand-navy shadow-lg shadow-brand-lightMint/20 transition-all">
+          جميع الخدمات (9)
+        </button>
+        <button data-filter="audit" class="filter-btn px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm glass-pill text-slate-300 hover:text-white hover:bg-white/15 transition-all">
+          التدقيق والرقابة
+        </button>
+        <button data-filter="digital" class="filter-btn px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm glass-pill text-slate-300 hover:text-white hover:bg-white/15 transition-all">
+          التحول والأنظمة ERP
+        </button>
+        <button data-filter="operations" class="filter-btn px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm glass-pill text-slate-300 hover:text-white hover:bg-white/15 transition-all">
+          التشغيل والكوادر
+        </button>
+      </div>
+
+      <!-- 3D Services Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 tilt-container" id="servicesGrid">
+
+        <!-- Service 1 -->
+        <div class="service-item tilt-card group" data-category="audit">
+          <div class="h-full bg-gradient-to-b from-[#0F1E3D] to-[#0A152C] rounded-3xl overflow-hidden border border-white/10 hover:border-emerald-400/50 shadow-2xl transition-all duration-300 flex flex-col">
+            
+            <div class="relative h-52 overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80" 
+                   onerror="this.src='https://placehold.co/900x500/0B1B3D/6EE7B7?text=External+Audit'" 
+                   alt="تأهيل المراجعة الخارجية" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0A152C] via-transparent to-transparent"></div>
+              
+              <!-- Floating 3D Badge Icon -->
+              <div class="absolute bottom-3 right-4 w-14 h-14 rounded-2xl bg-brand-emerald text-white flex items-center justify-center text-2xl shadow-xl shadow-black/50 border-2 border-white/20 transform group-hover:rotate-6 transition-transform">
+                🛡️
+              </div>
+              <span class="absolute top-4 left-4 text-[11px] font-bold px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-emerald-300 border border-emerald-400/30">
+                تدقيق واعتِماد
+              </span>
+            </div>
+
+            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-white mb-2.5 group-hover:text-brand-lightMint transition-colors">
+                  تأهيل المراجعة الخارجية
+                </h3>
+                <p class="text-slate-300 font-tajawal text-sm leading-relaxed mb-6">
+                  نضبط دفاتركم وقوائمكم ومستنداتكم المالية وفق المعايير المحاسبية المعتمدة لتجتازوا التدقيق القانوني بسلاسة تامة وبدون أي مخالفات أو غرامات.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-tajawal">مراجعة وفحص دقيق</span>
+                <button onclick="requestSpecificService('تأهيل المراجعة الخارجية')" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-lightMint hover:text-white transition-colors">
+                  <span>طلب تفاصيل الخدمة</span>
+                  <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-item tilt-card group" data-category="digital">
+          <div class="h-full bg-gradient-to-b from-[#0F1E3D] to-[#0A152C] rounded-3xl overflow-hidden border border-white/10 hover:border-emerald-400/50 shadow-2xl transition-all duration-300 flex flex-col">
+            
+            <div class="relative h-52 overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=900&q=80" 
+                   onerror="this.src='https://placehold.co/900x500/0B1B3D/6EE7B7?text=Digital+Archiving'" 
+                   alt="الأرشفة الاحترافية" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0A152C] via-transparent to-transparent"></div>
+              
+              <div class="absolute bottom-3 right-4 w-14 h-14 rounded-2xl bg-cyan-700 text-white flex items-center justify-center text-2xl shadow-xl shadow-black/50 border-2 border-white/20 transform group-hover:rotate-6 transition-transform">
+                📦
+              </div>
+              <span class="absolute top-4 left-4 text-[11px] font-bold px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-cyan-300 border border-cyan-400/30">
+                تنظيم رقمي
+              </span>
+            </div>
+
+            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-white mb-2.5 group-hover:text-cyan-300 transition-colors">
+                  الأرشفة الاحترافية
+                </h3>
+                <p class="text-slate-300 font-tajawal text-sm leading-relaxed mb-6">
+                  نحوّل الفوضى الورقية والمجلدات المتراكمة إلى أرشيف رقمي مشفر وسحابي يسهل الوصول إلى أي مستند أو فاتورة خلال ثوانٍ معدودة.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-tajawal">فهرسة وحفظ سحابي</span>
+                <button onclick="requestSpecificService('الأرشفة الاحترافية الرقمية')" class="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-300 hover:text-white transition-colors">
+                  <span>طلب تفاصيل الخدمة</span>
+                  <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-item tilt-card group" data-category="audit">
+          <div class="h-full bg-gradient-to-b from-[#0F1E3D] to-[#0A152C] rounded-3xl overflow-hidden border border-white/10 hover:border-emerald-400/50 shadow-2xl transition-all duration-300 flex flex-col">
+            
+            <div class="relative h-52 overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80" 
+                   onerror="this.src='https://placehold.co/900x500/0B1B3D/6EE7B7?text=Feasibility+Studies'" 
+                   alt="دراسات الجدوى المتكاملة" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0A152C] via-transparent to-transparent"></div>
+              
+              <div class="absolute bottom-3 right-4 w-14 h-14 rounded-2xl bg-amber-600 text-white flex items-center justify-center text-2xl shadow-xl shadow-black/50 border-2 border-white/20 transform group-hover:rotate-6 transition-transform">
+                📈
+              </div>
+              <span class="absolute top-4 left-4 text-[11px] font-bold px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-amber-300 border border-amber-400/30">
+                تخطيط واستثمار
+              </span>
+            </div>
+
+            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-white mb-2.5 group-hover:text-amber-300 transition-colors">
+                  دراسات الجدوى المتكاملة
+                </h3>
+                <p class="text-slate-300 font-tajawal text-sm leading-relaxed mb-6">
+                  ندرس مشاريعكم الاستثمارية وتوسعاتكم المستقبلية بدقة متناهية بالأرقام الواقعية لضمان صحة القرار وتوقع العائد الاستثماري (ROI).
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-tajawal">تحليل حساسية ومخاطر</span>
+                <button onclick="requestSpecificService('دراسات الجدوى المتكاملة')" class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-300 hover:text-white transition-colors">
+                  <span>طلب تفاصيل الخدمة</span>
+                  <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="service-item tilt-card group" data-category="digital">
+          <div class="h-full bg-gradient-to-b from-[#0F1E3D] to-[#0A152C] rounded-3xl overflow-hidden border border-white/10 hover:border-emerald-400/50 shadow-2xl transition-all duration-300 flex flex-col">
+            
+            <div class="relative h-52 overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80" 
+                   onerror="this.src='https://placehold.co/900x500/0B1B3D/6EE7B7?text=Digital+Transformation'" 
+                   alt="التحول الرقمي والآلي" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0A152C] via-transparent to-transparent"></div>
+              
+              <div class="absolute bottom-3 right-4 w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-2xl shadow-xl shadow-black/50 border-2 border-white/20 transform group-hover:rotate-6 transition-transform">
+                💻
+              </div>
+              <span class="absolute top-4 left-4 text-[11px] font-bold px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-indigo-300 border border-indigo-400/30">
+                أتمتة وحداثة
+              </span>
+            </div>
+
+            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-white mb-2.5 group-hover:text-indigo-300 transition-colors">
+                  التحول الرقمي والآلي
+                </h3>
+                <p class="text-slate-300 font-tajawal text-sm leading-relaxed mb-6">
+                  نأخذ بيدك خطوة بخطوة للانتقال من العمليات اليدوية والورقية إلى بيئة عمل مؤتمتة وسحابية متطورة توفر الوقت وتمنع الأخطاء البشرية.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-tajawal">حلول سحابية متقدمة</span>
+                <button onclick="requestSpecificService('التحول الرقمي والآلي')" class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-300 hover:text-white transition-colors">
+                  <span>طلب تفاصيل الخدمة</span>
+                  <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Service 5 -->
+        <div class="service-item tilt-card group" data-category="digital">
+          <div class="h-full bg-gradient-to-b from-[#0F1E3D] to-[#0A152C] rounded-3xl overflow-hidden border border-white/10 hover:border-emerald-400/50 shadow-2xl transition-all duration-300 flex flex-col">
+            
+            <div class="relative h-52 overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=900&q=80" 
+                   onerror="this.src='https://placehold.co/900x500/0B1B3D/6EE7B7?text=ERP+Systems'" 
+                   alt="توصية أنظمة ERP" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0A152C] via-transparent to-transparent"></div>
+              
+              <div class="absolute bottom-3 right-4 w-14 h-14 rounded-2xl bg-teal-600 text-white flex items-center justify-center text-2xl shadow-xl shadow-black/50 border-2 border-white/20 transform group-hover:rotate-6 transition-transform">
+                ⚙️
+              </div>
+              <span class="absolute top-4 left-4 text-[11px] font-bold px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-teal-300 border border-teal-400/30">
+                أنظمة ERP
+              </span>
+            </div>
+
+            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-white mb-2.5 group-hover:text-teal-300 transition-colors">
+                  توصية الأنظمة (ERP)
+                </h3>
+                <p class="text-slate-300 font-tajawal text-sm leading-relaxed mb-6">
+                  نحدد بدقة النظام المالي والإداري الأنسب لحجم نشاطك التجاري وطبيعة قطاعك، ونشرف على تنصيبه وتهيئته بدون أي إهدار لميزانيتك.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-tajawal">مواءمة وتطبيق احترافي</span>
+                <button onclick="requestSpecificService('توصية واختيار أنظمة ERP')" class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-300 hover:text-white transition-colors">
+                  <span>طلب تفاصيل الخدمة</span>
+                  <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Service 6 -->
+        <div class="service-item tilt-card group" data-category="audit">
+          <div class="h-full bg-gradient-to-b from-[#0F1E3D] to-[#0A152C] rounded-3xl overflow-hidden border border-white/10 hover:border-emerald-400/50 shadow-2xl transition-all duration-300 flex flex-col">
+            
+            <div class="relative h-52 overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=900&q=80" 
+                   onerror="this.src='https://placehold.co/900x500/0B1B3D/6EE7B7?text=Internal+Controls'" 
+                   alt="إحكام الرقابة الداخلية" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0A152C] via-transparent to-transparent"></div>
+              
+              <div class="absolute bottom-3 right-4 w-14 h-14 rounded-2xl bg-rose-600 text-white flex items-center justify-center text-2xl shadow-xl shadow-black/50 border-2 border-white/20 transform group-hover:rotate-6 transition-transform">
+                🔒
+              </div>
+              <span class="absolute top-4 left-4 text-[11px] font-bold px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-rose-300 border border-rose-400/30">
+                حوكمة وضبط
+              </span>
+            </div>
+
+            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-white mb-2.5 group-hover:text-rose-300 transition-colors">
+                  إحكام الرقابة الداخلية
+                </h3>
+                <p class="text-slate-300 font-tajawal text-sm leading-relaxed mb-6">
+                  تصميم دورات مستندية صارمة ولائحة صلاحيات مالية تقضي على الثغرات وتمنع الهدر المالي وتحمي ممتلكات المنشأة وأصولها بدقة.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-tajawal">سد الثغرات التشغيلية</span>
+                <button onclick="requestSpecificService('إحكام الرقابة الداخلية')" class="inline-flex items-center gap-1.5 text-xs font-bold text-rose-300 hover:text-white transition-colors">
+                  <span>طلب تفاصيل الخدمة</span>
+                  <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Service 7 -->
+        <div class="service-item tilt-card group" data-category="operations">
+          <div class="h-full bg-gradient-to-b from-[#0F1E3D] to-[#0A152C] rounded-3xl overflow-hidden border border-white/10 hover:border-emerald-400/50 shadow-2xl transition-all duration-300 flex flex-col">
+            
+            <div class="relative h-52 overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=900&q=80" 
+                   onerror="this.src='https://placehold.co/900x500/0B1B3D/6EE7B7?text=Remote+Bookkeeping'" 
+                   alt="مسك الحسابات عن بعد" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0A152C] via-transparent to-transparent"></div>
+              
+              <div class="absolute bottom-3 right-4 w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-2xl shadow-xl shadow-black/50 border-2 border-white/20 transform group-hover:rotate-6 transition-transform">
+                💼
+              </div>
+              <span class="absolute top-4 left-4 text-[11px] font-bold px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-emerald-300 border border-emerald-400/30">
+                مرونة وتوفير
+              </span>
+            </div>
+
+            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-white mb-2.5 group-hover:text-emerald-300 transition-colors">
+                  مسك الحسابات عن بُعد
+                </h3>
+                <p class="text-slate-300 font-tajawal text-sm leading-relaxed mb-6">
+                  إدارة شؤونك المالية اليومية وتقييد القيود ومطابقة الحسابات بإشراف خبراء معتمدين، وبتكلفة تقل بكثير عن توظيف محاسب دوام كامل.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-tajawal">تقارير دورية شهرية</span>
+                <button onclick="requestSpecificService('مسك الحسابات عن بعد')" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 hover:text-white transition-colors">
+                  <span>طلب تفاصيل الخدمة</span>
+                  <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Service 8 -->
+        <div class="service-item tilt-card group" data-category="operations">
+          <div class="h-full bg-gradient-to-b from-[#0F1E3D] to-[#0A152C] rounded-3xl overflow-hidden border border-white/10 hover:border-emerald-400/50 shadow-2xl transition-all duration-300 flex flex-col">
+            
+            <div class="relative h-52 overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80" 
+                   onerror="this.src='https://placehold.co/900x500/0B1B3D/6EE7B7?text=Data+Entry'" 
+                   alt="إدخال البيانات في المواسم" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0A152C] via-transparent to-transparent"></div>
+              
+              <div class="absolute bottom-3 right-4 w-14 h-14 rounded-2xl bg-sky-600 text-white flex items-center justify-center text-2xl shadow-xl shadow-black/50 border-2 border-white/20 transform group-hover:rotate-6 transition-transform">
+                ⚡
+              </div>
+              <span class="absolute top-4 left-4 text-[11px] font-bold px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-sky-300 border border-sky-400/30">
+                إسناد تشغيلي
+              </span>
+            </div>
+
+            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-white mb-2.5 group-hover:text-sky-300 transition-colors">
+                  إدخال البيانات في المواسم
+                </h3>
+                <p class="text-slate-300 font-tajawal text-sm leading-relaxed mb-6">
+                  نوفر كادراً محاسبياً مدرباً ومرناً لترحيل الفواتير وإدخال البيانات المتراكمة خلال مواسم التخفيضات وضغط المبيعات وجرد نهاية العام.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-tajawal">سرعة وإنجاز فوري</span>
+                <button onclick="requestSpecificService('إدخال البيانات في المواسم')" class="inline-flex items-center gap-1.5 text-xs font-bold text-sky-300 hover:text-white transition-colors">
+                  <span>طلب تفاصيل الخدمة</span>
+                  <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Service 9 -->
+        <div class="service-item tilt-card group" data-category="operations">
+          <div class="h-full bg-gradient-to-b from-[#0F1E3D] to-[#0A152C] rounded-3xl overflow-hidden border border-white/10 hover:border-emerald-400/50 shadow-2xl transition-all duration-300 flex flex-col">
+            
+            <div class="relative h-52 overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=80" 
+                   onerror="this.src='https://placehold.co/900x500/0B1B3D/6EE7B7?text=Staff+Training'" 
+                   alt="تأهيل الكوادر البشرية" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0A152C] via-transparent to-transparent"></div>
+              
+              <div class="absolute bottom-3 right-4 w-14 h-14 rounded-2xl bg-purple-600 text-white flex items-center justify-center text-2xl shadow-xl shadow-black/50 border-2 border-white/20 transform group-hover:rotate-6 transition-transform">
+                🎓
+              </div>
+              <span class="absolute top-4 left-4 text-[11px] font-bold px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-purple-300 border border-purple-400/30">
+                تطوير وورش عمل
+              </span>
+            </div>
+
+            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-white mb-2.5 group-hover:text-purple-300 transition-colors">
+                  تأهيل الكوادر البشرية
+                </h3>
+                <p class="text-slate-300 font-tajawal text-sm leading-relaxed mb-6">
+                  ندرب موظفيك الأوفياء ذوي الأقدمية على أحدث المنظومات والبرامج المحاسبية السحابية باحترافية، لرفع كفاءتهم دون الحاجة للاستغناء عنهم.
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+                <span class="text-xs text-slate-400 font-tajawal">حقائب تدريبية عملية</span>
+                <button onclick="requestSpecificService('تأهيل وتدريب الكوادر البشرية')" class="inline-flex items-center gap-1.5 text-xs font-bold text-purple-300 hover:text-white transition-colors">
+                  <span>طلب تفاصيل الخدمة</span>
+                  <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INTERACTIVE DIAGNOSTIC / ASSESSMENT TOOL -->
+  <section id="assessment" class="py-20 bg-gradient-to-b from-[#050B17] via-[#0B1B3D] to-[#070F20] relative z-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="glass-dark rounded-3xl p-8 sm:p-12 border border-brand-emerald/40 shadow-2xl relative overflow-hidden">
+        
+        <!-- Glowing Background Accent -->
+        <div class="absolute -top-24 -right-24 w-72 h-72 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="text-center mb-8 relative z-10">
+          <span class="text-xs font-bold text-brand-lightMint px-3 py-1 rounded-full bg-emerald-900/50 border border-emerald-400/30">
+            أداة تفاعلية سريعة
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-white mt-3 mb-2">
+            مقياس الجاهزية الإدارية والمحاسبية لمنشأتك
+          </h2>
+          <p class="text-slate-300 font-tajawal text-sm sm:text-base">
+            حدد الوضع الحالي لمنشأتك وسنقدم لك التوصية الاستشارية المثالية مباشرة عبر الواتساب بنقرة واحدة!
+          </p>
+        </div>
+
+        <div class="space-y-6 relative z-10" id="assessmentForm">
+          
+          <!-- Question 1 -->
+          <div>
+            <label class="block text-sm font-bold text-slate-200 mb-2">1. ما هو النظام المتبع حالياً في تدوين عملياتك المالية؟</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <label class="cursor-pointer border border-white/10 rounded-xl p-3.5 bg-white/5 hover:bg-white/10 flex items-center gap-3 transition-colors text-xs font-medium has-[:checked]:border-brand-lightMint has-[:checked]:bg-brand-emerald/20">
+                <input type="radio" name="q1" value="سجلات ورقية ودفاتر يدوية" class="text-emerald-500 focus:ring-0" checked>
+                <span>دفاتر ورقية أو إكسل تقليدي</span>
+              </label>
+              <label class="cursor-pointer border border-white/10 rounded-xl p-3.5 bg-white/5 hover:bg-white/10 flex items-center gap-3 transition-colors text-xs font-medium has-[:checked]:border-brand-lightMint has-[:checked]:bg-brand-emerald/20">
+                <input type="radio" name="q1" value="برنامج محاسبي محلي قديم" class="text-emerald-500 focus:ring-0">
+                <span>برنامج مكتبي قديم غير سحابي</span>
+              </label>
+              <label class="cursor-pointer border border-white/10 rounded-xl p-3.5 bg-white/5 hover:bg-white/10 flex items-center gap-3 transition-colors text-xs font-medium has-[:checked]:border-brand-lightMint has-[:checked]:bg-brand-emerald/20">
+                <input type="radio" name="q1" value="نظام ERP سحابي متقدم" class="text-emerald-500 focus:ring-0">
+                <span>نظام ERP متكامل وسحابي</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Question 2 -->
+          <div>
+            <label class="block text-sm font-bold text-slate-200 mb-2">2. ما هو التحدي الأكبر الذي تواجهه حالياً؟</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <label class="cursor-pointer border border-white/10 rounded-xl p-3.5 bg-white/5 hover:bg-white/10 flex items-center gap-3 transition-colors text-xs font-medium has-[:checked]:border-brand-lightMint has-[:checked]:bg-brand-emerald/20">
+                <input type="radio" name="q2" value="الخوف من غرامات التدقيق الخارجي" class="text-emerald-500 focus:ring-0" checked>
+                <span>الاستعداد للمراجعة الخارجية</span>
+              </label>
+              <label class="cursor-pointer border border-white/10 rounded-xl p-3.5 bg-white/5 hover:bg-white/10 flex items-center gap-3 transition-colors text-xs font-medium has-[:checked]:border-brand-lightMint has-[:checked]:bg-brand-emerald/20">
+                <input type="radio" name="q2" value="تسرب أموال وضعف الرقابة الداخلية" class="text-emerald-500 focus:ring-0">
+                <span>ضبط التكاليف ومنع الهدر المالي</span>
+              </label>
+              <label class="cursor-pointer border border-white/10 rounded-xl p-3.5 bg-white/5 hover:bg-white/10 flex items-center gap-3 transition-colors text-xs font-medium has-[:checked]:border-brand-lightMint has-[:checked]:bg-brand-emerald/20">
+                <input type="radio" name="q2" value="تراكم فواتير وأوراق وفوضى أرشيف" class="text-emerald-500 focus:ring-0">
+                <span>فوضى الأرشيف وإدخال البيانات</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Question 3 -->
+          <div>
+            <label class="block text-sm font-bold text-slate-200 mb-2">3. حجم منشأتك وعدد الموظفين التقريبي:</label>
+            <div class="grid grid-cols-3 gap-3">
+              <label class="cursor-pointer border border-white/10 rounded-xl p-3 bg-white/5 hover:bg-white/10 text-center transition-colors text-xs font-medium has-[:checked]:border-brand-lightMint has-[:checked]:bg-brand-emerald/20">
+                <input type="radio" name="q3" value="منشأة ناشئة أو متناهية الصغر (1-5)" class="hidden" checked>
+                <span>ناشئة (1 - 5)</span>
+              </label>
+              <label class="cursor-pointer border border-white/10 rounded-xl p-3 bg-white/5 hover:bg-white/10 text-center transition-colors text-xs font-medium has-[:checked]:border-brand-lightMint has-[:checked]:bg-brand-emerald/20">
+                <input type="radio" name="q3" value="منشأة متوسطة (6-25)" class="hidden">
+                <span>متوسطة (6 - 25)</span>
+              </label>
+              <label class="cursor-pointer border border-white/10 rounded-xl p-3 bg-white/5 hover:bg-white/10 text-center transition-colors text-xs font-medium has-[:checked]:border-brand-lightMint has-[:checked]:bg-brand-emerald/20">
+                <input type="radio" name="q3" value="منشأة كبرى (أكثر من 25)" class="hidden">
+                <span>كبرى (+25)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-4 text-center">
+            <button type="button" onclick="generateDiagnosticReport()" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 text-brand-navy font-black px-10 py-4 rounded-2xl text-base shadow-xl shadow-emerald-500/30 hover:scale-[1.02] active:scale-95 transition-all">
+              <span>إرسال التقرير وتلقي خطة المعالجة المجانية عبر واتساب</span>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.5 3.5A11.9 11.9 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.4-1.7c1.7.9 3.6 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3z"/></svg>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION WITH MULTI-CHANNEL HUB -->
+  <section id="contact" class="py-24 bg-gradient-to-b from-[#070F20] to-[#040914] text-white relative z-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      
+      <div class="max-w-3xl mx-auto mb-14">
+        <span class="text-xs font-bold text-brand-lightMint px-4 py-1.5 rounded-full glass-pill border border-emerald-400/30">
+          تواصل مباشر وسريع
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 mb-3">
+          نحن هنا لدعم نموك المالي واستقرارك
+        </h2>
+        <p class="text-slate-300 font-tajawal text-base sm:text-lg">
+          سواء كان لديك استفسار عاجل، أو تحتاج لعرض أسعار مخصص لمشروعك، فريق مستشارينا الماليين جاهز للإجابة الآن.
+        </p>
+      </div>
+
+      <!-- Quick Interactive Email Card with Copy Feature -->
+      <div class="max-w-lg mx-auto mb-14">
+        <div class="glass-dark p-4 sm:p-5 rounded-2xl border border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xl">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center text-xl">
+              ✉️
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-slate-400 font-tajawal">البريد الإلكتروني المعتمد</div>
+              <span id="emailText" class="font-mono text-sm sm:text-base font-bold text-white select-all">synergyone.ye@gmail.com</span>
+            </div>
+          </div>
+          
+          <button onclick="copyEmailToClipboard()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-slate-200 hover:text-white border border-white/20 flex items-center justify-center gap-2 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span id="copyBtnText">نسخ البريد</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Social & Direct Contact Channels Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
+        
+        <!-- WhatsApp Direct -->
+        <a href="https://wa.me/967773744429" target="_blank" rel="noopener" class="group p-5 rounded-2xl bg-emerald-600/20 hover:bg-emerald-600/35 border border-emerald-500/40 shadow-lg hover:shadow-emerald-500/30 hover:-translate-y-1.5 transition-all flex flex-col items-center justify-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-[#25D366] text-white flex items-center justify-center shadow-md">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.5 3.5A11.9 11.9 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.1 1.6 5.9L0 24l6.4-1.7c1.7.9 3.6 1.4 5.6 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3zM12 21.5c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.8 1 1-3.7-.2-.4a9.5 9.5 0 0 1-1.5-5.1c0-5.3 4.3-9.6 9.6-9.6 2.6 0 5 1 6.8 2.8 1.8 1.8 2.8 4.2 2.8 6.8.2 5.3-4.1 9.8-9.3 9.8zm5.4-7.2c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.2-.6-.4z"/></svg>
+          </div>
+          <span class="font-bold text-sm text-white group-hover:text-emerald-300">واتساب مباشر</span>
+          <span class="text-[11px] text-emerald-300/80 font-tajawal">متاح على مدار الساعة</span>
+        </a>
+
+        <!-- Gmail Direct -->
+        <a href="mailto:synergyone.ye@gmail.com" class="group p-5 rounded-2xl bg-red-600/15 hover:bg-red-600/30 border border-red-500/30 shadow-lg hover:shadow-red-500/20 hover:-translate-y-1.5 transition-all flex flex-col items-center justify-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-[#EA4335] text-white flex items-center justify-center shadow-md">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 5.5v13c0 .8-.7 1.5-1.5 1.5H19V9.7l-7 5.2-7-5.2V20H1.5C.7 20 0 19.3 0 18.5v-13C0 4.6.6 3.7 1.6 3.3c.6-.3 1.3-.2 1.9.2L12 9.7l8.5-6.2c.6-.4 1.3-.5 1.9-.2 1 .4 1.6 1.3 1.6 2.2z"/></svg>
+          </div>
+          <span class="font-bold text-sm text-white group-hover:text-red-300">مراسلة بريدية</span>
+          <span class="text-[11px] text-red-300/80 font-tajawal">استفسارات رسمية</span>
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://facebook.com" target="_blank" rel="noopener" class="group p-5 rounded-2xl bg-blue-600/15 hover:bg-blue-600/30 border border-blue-500/30 shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1.5 transition-all flex flex-col items-center justify-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-[#1877F2] text-white flex items-center justify-center shadow-md">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.7 0H1.3C.6 0 0 .6 0 1.3v21.4C0 23.4.6 24 1.3 24h11.5v-9.3H9.7v-3.6h3.1V8.4c0-3.1 1.9-4.8 4.7-4.8 1.3 0 2.5.1 2.8.1v3.3h-1.9c-1.5 0-1.8.7-1.8 1.7v2.4h3.6l-.5 3.6h-3.1V24h6.1c.7 0 1.3-.6 1.3-1.3V1.3C24 .6 23.4 0 22.7 0z"/></svg>
+          </div>
+          <span class="font-bold text-sm text-white group-hover:text-blue-300">فيسبوك</span>
+          <span class="text-[11px] text-blue-300/80 font-tajawal">مجتمع الأعمال</span>
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="group p-5 rounded-2xl bg-pink-600/15 hover:bg-pink-600/30 border border-pink-500/30 shadow-lg hover:shadow-pink-500/20 hover:-translate-y-1.5 transition-all flex flex-col items-center justify-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center shadow-md">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2M12 0C8.7 0 8.3 0 7 .1 5.8.2 4.9.4 4.1.7c-.8.3-1.5.8-2.2 1.5C1.2 2.9.7 3.6.4 4.4.1 5.2-.1 6.1-.2 7.3-.3 8.6-.3 9 0 12s0 3.4.1 4.7c.1 1.2.3 2.1.6 2.9.3.8.8 1.5 1.5 2.2.7.7 1.4 1.2 2.2 1.5.8.3 1.7.5 2.9.6 1.3.1 1.7.1 4.9.1s3.6 0 4.9-.1c1.2-.1 2.1-.3 2.9-.6.8-.3 1.5-.8 2.2-1.5.7-.7 1.2-1.4 1.5-2.2.3-.8.5-1.7.6-2.9.1-1.3.1-1.7.1-4.9s0-3.6-.1-4.9c-.1-1.2-.3-2.1-.6-2.9-.3-.8-.8-1.5-1.5-2.2-.7-.7-1.4-1.2-2.2-1.5-.8-.3-1.7-.5-2.9-.6C15.6 0 15.2 0 12 0zm0 5.8c-3.4 0-6.2 2.8-6.2 6.2s2.8 6.2 6.2 6.2 6.2-2.8 6.2-6.2S15.4 5.8 12 5.8zm0 10.2c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm6.4-10.4c0 .8-.6 1.4-1.4 1.4s-1.4-.6-1.4-1.4.6-1.4 1.4-1.4 1.4.6 1.4 1.4z"/></svg>
+          </div>
+          <span class="font-bold text-sm text-white group-hover:text-pink-300">إنستغرام</span>
+          <span class="text-[11px] text-pink-300/80 font-tajawal">نصائح ومحتوى مالي</span>
+        </a>
+
+        <!-- LinkedIn -->
+        <a href="https://linkedin.com" target="_blank" rel="noopener" class="group p-5 rounded-2xl bg-sky-600/15 hover:bg-sky-600/30 border border-sky-500/30 shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1.5 transition-all flex flex-col items-center justify-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-[#0077B5] text-white flex items-center justify-center shadow-md">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.4 20.4h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.7-1.8 3.4-1.8 3.7 0 4.3 2.4 4.3 5.5v6.1zM5.3 7.4c-1.2 0-2.1-.9-2.1-2.1S4.1 3.2 5.3 3.2s2.1.9 2.1 2.1-.9 2.1-2.1 2.1zM7.1 20.4H3.5V9h3.6v11.4zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.5c0 1 .8 1.8 1.8 1.8h20.4c1 0 1.8-.8 1.8-1.8V1.7c0-.9-.8-1.7-1.8-1.7z"/></svg>
+          </div>
+          <span class="font-bold text-sm text-white group-hover:text-sky-300">لينكدإن</span>
+          <span class="text-[11px] text-sky-300/80 font-tajawal">الملف المهني</span>
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#03060D] border-t border-white/10 text-slate-400 py-10 relative z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-tajawal">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-brand-lightMint"></span>
+        <span>© 2026 جميع الحقوق محفوظة لـ <strong>سِينرجي ون | Synergy One</strong> — رِكاز للمحاسبة والإدارة</span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-400">
+        <a href="#hero" class="hover:text-brand-lightMint transition-colors">أعلى الصفحة ↑</a>
+        <span>•</span>
+        <a href="https://wa.me/967773744429" target="_blank" class="hover:text-brand-lightMint transition-colors">مكتب الاستشارات</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CUSTOM TOAST NOTIFICATION CONTAINER (Strictly avoiding alert) -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-32 opacity-0 transition-all duration-300 flex items-center gap-3 bg-emerald-950/90 text-emerald-100 border border-emerald-400/50 backdrop-blur-xl px-5 py-3.5 rounded-2xl shadow-2xl">
+    <span class="text-xl">✅</span>
+    <span id="toastMessage" class="text-sm font-bold">تم بنجاح!</span>
+  </div>
+
+  <script>
+    /* =========================================================
+       1. THREE.JS 3D INTERACTIVE HERO WORLD
+       ========================================================= */
+    let scene, camera, renderer, coreIcosahedron, particleCloud, ringGroup;
+    let mouseX = 0, mouseY = 0;
+    let targetX = 0, targetY = 0;
+    let windowHalfX = window.innerWidth / 2;
+    let windowHalfY = window.innerHeight / 2;
+
+    function initThreeJS() {
+      const container = document.getElementById('threejs-hero-container');
+      if (!container) return;
+
+      // Create Scene
+      scene = new THREE.Scene();
+
+      // Camera setup with soft wide lens
+      camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+      camera.position.z = 85;
+
+      // WebGL Renderer with alpha transparency
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      container.appendChild(renderer.domElement);
+
+      // Ambient and directional lighting for 3D depth
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+      scene.add(ambientLight);
+
+      const dirLight1 = new THREE.DirectionalLight(0x6ee7b7, 2.5);
+      dirLight1.position.set(50, 40, 50);
+      scene.add(dirLight1);
+
+      const dirLight2 = new THREE.DirectionalLight(0x0f5257, 3);
+      dirLight2.position.set(-50, -40, -50);
+      scene.add(dirLight2);
+
+      // --- Central 3D Geometry: Futuristic Financial Core (Icosahedron Wireframe & Inner Core) ---
+      const coreGroup = new THREE.Group();
+
+      // Inner Solid Core
+      const innerGeo = new THREE.IcosahedronGeometry(13, 0);
+      const innerMat = new THREE.MeshStandardMaterial({
+        color: 0x0b1b3d,
+        roughness: 0.2,
+        metalness: 0.9,
+        wireframe: false,
+      });
+      const innerMesh = new THREE.Mesh(innerGeo, innerMat);
+      coreGroup.add(innerMesh);
+
+      // Outer Wireframe Cage (Emerald Glowing Lines)
+      const wireGeo = new THREE.IcosahedronGeometry(16, 1);
+      const wireMat = new THREE.MeshBasicMaterial({
+        color: 0x6ee7b7,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.35
+      });
+      coreIcosahedron = new THREE.Mesh(wireGeo, wireMat);
+      coreGroup.add(coreIcosahedron);
+
+      // Orbiting Rings representing Synergistic Balance & Continuity
+      ringGroup = new THREE.Group();
+
+      const ringGeo1 = new THREE.TorusGeometry(23, 0.4, 16, 100);
+      const ringMat1 = new THREE.MeshStandardMaterial({
+        color: 0x34d399,
+        metalness: 0.8,
+        roughness: 0.3,
+        emissive: 0x0f5257,
+        emissiveIntensity: 0.4
+      });
+      const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
+      ring1.rotation.x = Math.PI / 3;
+      ringGroup.add(ring1);
+
+      const ringGeo2 = new THREE.TorusGeometry(26, 0.3, 16, 100);
+      const ringMat2 = new THREE.MeshStandardMaterial({
+        color: 0xf59e0b,
+        metalness: 0.9,
+        roughness: 0.2
+      });
+      const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
+      ring2.rotation.y = Math.PI / 4;
+      ringGroup.add(ring2);
+
+      coreGroup.add(ringGroup);
+      scene.add(coreGroup);
+
+      // Floating Particle Cloud (Financial Data Nodes)
+      const particlesCount = 380;
+      const posArray = new Float32Array(particlesCount * 3);
+
+      for (let i = 0; i < particlesCount * 3; i += 3) {
+        posArray[i] = (Math.random() - 0.5) * 160;
+        posArray[i + 1] = (Math.random() - 0.5) * 120;
+        posArray[i + 2] = (Math.random() - 0.5) * 100;
+      }
+
+      const particleGeo = new THREE.BufferGeometry();
+      particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+      const particleMat = new THREE.PointsMaterial({
+        size: 1.4,
+        color: 0x6ee7b7,
+        transparent: true,
+        opacity: 0.7,
+        blending: THREE.AdditiveBlending
+      });
+
+      particleCloud = new THREE.Points(particleGeo, particleMat);
+      scene.add(particleCloud);
+
+      // Event Listeners for Mouse and Touch Interactivity
+      window.addEventListener('resize', onWindowResize);
+      document.addEventListener('mousemove', onDocumentMouseMove);
+      
+      // Touch events for full mobile interactivity
+      container.addEventListener('touchmove', onTouchMove, { passive: true });
+    }
+
+    function onWindowResize() {
+      windowHalfX = window.innerWidth / 2;
+      windowHalfY = window.innerHeight / 2;
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function onDocumentMouseMove(event) {
+      mouseX = (event.clientX - windowHalfX) * 0.04;
+      mouseY = (event.clientY - windowHalfY) * 0.04;
+    }
+
+    function onTouchMove(event) {
+      if (event.touches.length > 0) {
+        mouseX = (event.touches[0].clientX - windowHalfX) * 0.05;
+        mouseY = (event.touches[0].clientY - windowHalfY) * 0.05;
+      }
+    }
+
+    // Animation Loop
+    function animateThreeJS() {
+      requestAnimationFrame(animateThreeJS);
+
+      // Smooth camera interpolation towards mouse position
+      targetX += (mouseX - targetX) * 0.05;
+      targetY += (mouseY - targetY) * 0.05;
+
+      camera.position.x += (targetX - camera.position.x) * 0.05;
+      camera.position.y += (-targetY - camera.position.y) * 0.05;
+      camera.lookAt(scene.position);
+
+      // Object continuous rotational physics
+      if (coreIcosahedron) {
+        coreIcosahedron.rotation.x += 0.003;
+        coreIcosahedron.rotation.y += 0.005;
+      }
+      if (ringGroup) {
+        ringGroup.rotation.z += 0.004;
+        ringGroup.rotation.x += 0.002;
+      }
+      if (particleCloud) {
+        particleCloud.rotation.y -= 0.001;
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    /* =========================================================
+       2. INTERACTIVE 3D PERSPECTIVE CARD TILT ENGINE
+       ========================================================= */
+    function init3DTiltCards() {
+      const cards = document.querySelectorAll('.tilt-card');
+      
+      cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          const rotateX = ((y - centerY) / centerY) * -10;
+          const rotateY = ((x - centerX) / centerX) * 10;
+          
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale3d(1.02, 1.02, 1.02)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) scale3d(1, 1, 1)`;
+        });
+      });
+    }
+
+    /* =========================================================
+       3. SERVICES FILTERING SYSTEM
+       ========================================================= */
+    function initFilterSystem() {
+      const buttons = document.querySelectorAll('.filter-btn');
+      const items = document.querySelectorAll('.service-item');
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => {
+            b.classList.remove('bg-brand-lightMint', 'text-brand-navy', 'shadow-lg');
+            b.classList.add('glass-pill', 'text-slate-300');
+          });
+
+          btn.classList.add('bg-brand-lightMint', 'text-brand-navy', 'shadow-lg');
+          btn.classList.remove('glass-pill', 'text-slate-300');
+
+          const filter = btn.getAttribute('data-filter');
+
+          items.forEach(item => {
+            if (filter === 'all' || item.getAttribute('data-category') === filter) {
+              item.style.display = 'block';
+              setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'scale(1)';
+              }, 50);
+            } else {
+              item.style.opacity = '0';
+              item.style.transform = 'scale(0.95)';
+              setTimeout(() => {
+                item.style.display = 'none';
+              }, 200);
+            }
+          });
+        });
+      });
+    }
+
+    /* =========================================================
+       4. CUSTOM TOAST & CLIPBOARD HELPER
+       ========================================================= */
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      const msg = document.getElementById('toastMessage');
+      if (!toast || !msg) return;
+
+      msg.textContent = message;
+      toast.classList.remove('translate-y-32', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-32', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    function copyEmailToClipboard() {
+      const email = 'synergyone.ye@gmail.com';
+      const dummyInput = document.createElement('textarea');
+      dummyInput.value = email;
+      document.body.appendChild(dummyInput);
+      dummyInput.select();
+      
+      try {
+        document.execCommand('copy');
+        document.getElementById('copyBtnText').innerText = 'تم النسخ!';
+        showToast('تم نسخ البريد الإلكتروني إلى الحافظة بنجاح');
+        setTimeout(() => {
+          document.getElementById('copyBtnText').innerText = 'نسخ البريد';
+        }, 2500);
+      } catch (err) {
+        showToast('تعذر النسخ تلقائياً، البريد: ' + email);
+      }
+      
+      document.body.removeChild(dummyInput);
+    }
+
+    /* =========================================================
+       5. WHATSAPP CUSTOM ACTION GENERATORS
+       ========================================================= */
+    function requestSpecificService(serviceName) {
+      const text = encodeURIComponent(`مرحباً سِينرجي ون، أرغب في الاستفسار والحصول على استشارة بخصوص خدمة: (${serviceName}) لمنشأتي.`);
+      window.open(`https://wa.me/967773744429?text=${text}`, '_blank');
+    }
+
+    function generateDiagnosticReport() {
+      const q1 = document.querySelector('input[name="q1"]:checked')?.value || 'غير محدد';
+      const q2 = document.querySelector('input[name="q2"]:checked')?.value || 'غير محدد';
+      const q3 = document.querySelector('input[name="q3"]:checked')?.value || 'غير محدد';
+
+      const message = `مرحباً فريق رِكاز (سِينرجي ون)، قمت بإجراء فحص الجاهزية المالية لمؤسستي عبر موقعكم:\n` +
+                      `• النظام المالي الحالي: ${q1}\n` +
+                      `• التحدي الرئيسي: ${q2}\n` +
+                      `• حجم المنشأة: ${q3}\n` +
+                      `نرجو تزويدنا بالتوصية والحلول المقترحة.`;
+
+      window.open(`https://wa.me/967773744429?text=${encodeURIComponent(message)}`, '_blank');
+      showToast('جاري فتح واتساب لإرسال تقرير جاهزية منشأتك...');
+    }
+
+    /* =========================================================
+       6. MOBILE MENU & HEADER SCROLL EFFECT
+       ========================================================= */
+    window.onload = function () {
+      initThreeJS();
+      animateThreeJS();
+      init3DTiltCards();
+      initFilterSystem();
+
+      // Mobile Menu Toggle
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+      }
+    };
+  </script>
+
+</body>
+</html>
